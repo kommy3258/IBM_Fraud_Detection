@@ -45,6 +45,10 @@ df['Chip_Swipe'] = (df['Use Chip'] == 'Swipe Transaction').astype(int)
 
 df['Is Fraud?'] = (df['Is Fraud?'] == 'Yes').astype(int)
 
+merchant_counts = df['Merchant Name'].value_counts()
+low_freq_merchants = merchant_counts[merchant_counts < 244].index
+df.loc[df['Merchant Name'].isin(low_freq_merchants), 'Merchant Name'] = 'Others'
+
 error_list = ['Insufficient Balance', 'Bad PIN', 'Technical Glitch', 'Bad Card Number', 'Bad CVV', 'Bad Expiration', 'Bad Zipcode']
 
 for err in error_list:
